@@ -1,0 +1,20 @@
+FROM ubuntu:latest
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    git bash wget unzip ca-certificates \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
+ENV TERRAFORM_VERSION=0.12.6
+ENV TERRAFORM_SHA256SUM=6544eb55b3e916affeea0a46fe785329c36de1ba1bdb51ca5239d3567101876f
+
+ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip ./
+ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS ./
+
+RUN sed -i "/terraform_${TERRAFORM_VERSION}_linux_amd64.zip/!d" "terraform_${TERRAFORM_VERSION}_SHA256SUMS"
+RUN sha256sum -c terraform_${TERRAFORM_VERSION}_SHA256SUMS
+RUN unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin
+RUN rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
