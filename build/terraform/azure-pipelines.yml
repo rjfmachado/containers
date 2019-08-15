@@ -34,7 +34,7 @@ stages:
     steps:
 
     - publish: src/terraform
-      displayName: "Publish Management Groups build artifact."
+      displayName: "Publish Terraform Container."
       artifact: terraformDockerfile
       enabled: "true"
 
