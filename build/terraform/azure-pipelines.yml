@@ -16,7 +16,7 @@ resources:
 - repo: self
 
 variables:
-  terraformVersion: 0.12.9
+  terraformVersion: 0.12.10
   containerRegistry: 'rjfmachado.azurecr.io'
   dockerRegistryServiceConnection: 'containers'
   imageRepository: 'terraform'
