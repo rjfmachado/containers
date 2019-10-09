@@ -1,0 +1,16 @@
+# Cleanup old Container Images on Azure Container Registry
+- task: AzureCLI@1
+  displayName: "Azure CLI - Cleanup old Container Images"
+  inputs:
+    azureSubscription: "$(SUBSCRIPTION_NAME)"
+    scriptLocation: inlineScript
+    inlineScript: |
+      MAXAGE=14 # Maxium Age in Days
+      MINVERS=7 # Minimum number of versions
+      REPOSITORY=verbundapi-base-$(dynInstance)
+      TIMESTAMP=`date '+%Y-%m-%d' -d "-$MAXAGE days"` #2019-04-05
+      echo " * Repo: $REPOSITORY"
+      echo " * Delete images older then $MAXAGE ($TIMESTAMP) days; Keep $MINVERS images."
+      az acr repository show-manifests --name $(AZURE_ACR_NAME) --repository $REPOSITORY \
+      --orderby time_asc --query "[?timestamp < '$TIMESTAMP'].digest" -o tsv \
+      | tail -n +$MINVERS | xargs -I% az acr repository delete --name $(AZURE_ACR_NAME) --image $REPOSITORY@% --yes
