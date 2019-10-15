@@ -5,5 +5,6 @@
 My helper repo for various Docker containers.
 
 ## To do
+az pipelines folder create --path "\containers\ci"
 
 - TODO: helper to keep ACR storage by deleting old images

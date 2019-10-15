@@ -1,0 +1,78 @@
+FROM ubuntu:18-04-latest
+
+# Add Terraform
+ENV TERRAFORM_VERSION=0.12.10
+ENV TERRAFORM_SHA256SUM=2215208822f1a183fb57e24289de417c9b3157affbe8a5e520b768edbcb420b4
+
+ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip ./
+ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS ./
+
+RUN sed -i "/terraform_${TERRAFORM_VERSION}_linux_amd64.zip/!d" "terraform_${TERRAFORM_VERSION}_SHA256SUMS"
+RUN sha256sum -c terraform_${TERRAFORM_VERSION}_SHA256SUMS
+RUN unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin
+RUN rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+
+ARG PS_VERSION=6.2.3
+ARG PS_PACKAGE=powershell_${PS_VERSION}-1.ubuntu.18.04_amd64.deb
+ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
+
+RUN echo ${PS_PACKAGE_URL}
+# Download the Linux package and save it
+ADD ${PS_PACKAGE_URL} /tmp/powershell.deb
+
+# Define ENVs for Localization/Globalization
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    # set a fixed location for the Module analysis cache
+    PSModuleAnalysisCachePath=/var/cache/microsoft/powershell/PSModuleAnalysisCache/ModuleAnalysisCache
+
+# Install dependencies and clean up
+RUN apt-get update \
+    && apt-get install -y /tmp/powershell.deb \
+    && apt-get install -y \
+    # less is required for help in powershell
+    less \
+    # requied to setup the locale
+    locales \
+    # required for SSL
+    ca-certificates \
+    gss-ntlmssp \
+    && apt-get dist-upgrade -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && locale-gen $LANG && update-locale \
+    # remove powershell package
+    && rm /tmp/powershell.deb \
+    # intialize powershell module cache
+    && pwsh \
+    -NoLogo \
+    -NoProfile \
+    -Command " \
+    \$ErrorActionPreference = 'Stop' ; \
+    \$ProgressPreference = 'SilentlyContinue' ; \
+    while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
+    Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
+    Start-Sleep -Seconds 6 ; \
+    }"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    git bash wget unzip ca-certificates less locales gss-ntlmssp\
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*\
+    && locale-gen $LANG && update-locale \
+    && rm /tmp/powershell.deb \
+    # intialize powershell module cache
+    && pwsh \
+    -NoLogo \
+    -NoProfile \
+    -Command " \
+    \$ErrorActionPreference = 'Stop' ; \
+    \$ProgressPreference = 'SilentlyContinue' ; \
+    while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
+    Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
+    Start-Sleep -Seconds 6 ; \
+    }"
