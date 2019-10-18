@@ -50,3 +50,4 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(terraformVersion)
+          latest
