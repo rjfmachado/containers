@@ -5,9 +5,9 @@
     azureSubscription: "$(SUBSCRIPTION_NAME)"
     scriptLocation: inlineScript
     inlineScript: |
-      MAXAGE=14 # Maxium Age in Days
+      MAXAGE=14 # Maximum Age in Days
       MINVERS=7 # Minimum number of versions
-      REPOSITORY=verbundapi-base-$(dynInstance)
+      REPOSITORY=terraform
       TIMESTAMP=`date '+%Y-%m-%d' -d "-$MAXAGE days"` #2019-04-05
       echo " * Repo: $REPOSITORY"
       echo " * Delete images older then $MAXAGE ($TIMESTAMP) days; Keep $MINVERS images."
