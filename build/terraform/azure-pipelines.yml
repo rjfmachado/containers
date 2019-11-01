@@ -18,7 +18,7 @@ resources:
 variables:
   terraformVersion: 0.12.13
   containerRegistry: 'rjfmachado.azurecr.io'
-  dockerRegistryServiceConnection: 'containers'
+  dockerRegistryServiceConnection: 'rjfmachado.containers'
   imageRepository: 'terraform'
   dockerfilePath: '$(Build.SourcesDirectory)/src/terraform/dockerfile'
 
