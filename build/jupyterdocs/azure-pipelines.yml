@@ -1,0 +1,52 @@
+name: Container_jupyterdocs_$(Rev:.r)
+
+pr: none
+
+trigger:
+ batch: "true"
+ branches:
+   include:
+     - master
+ paths:
+   include:
+     - src/jupyterdocs
+     - build/jupyterdocs/azure-pipelines.yml
+
+resources:
+- repo: self
+
+variables:
+  containerRegistry: 'rjfmachado.azurecr.io'
+  dockerRegistryServiceConnection: 'rjfmachado.containers'
+  imageRepository: 'jupyterdocs'
+  dockerfilePath: '$(Build.SourcesDirectory)/src/jupyterdocs/dockerfile'
+
+stages:
+
+- stage: build
+
+  jobs:
+
+  - job: Build
+    displayName: Build and Push to ACR
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+
+    - publish: src/jupyterdocs
+      displayName: "Publish jupyterdocs Container."
+      artifact: jupyterdocsDockerfile
+      enabled: "true"
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      enabled: "true"
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(Rev:.r)
+          latest
