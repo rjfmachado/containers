@@ -16,7 +16,7 @@ resources:
 - repo: self
 
 variables:
-  jupyterdocsVersion: 0.0.1
+  jupyterdocsVersion: 0.0.2
   containerRegistry: 'rjfmachado.azurecr.io'
   dockerRegistryServiceConnection: 'rjfmachado.containers'
   imageRepository: 'jupyterdocs'
