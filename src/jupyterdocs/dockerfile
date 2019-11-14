@@ -1,0 +1,37 @@
+FROM jupyter/base-notebook
+
+# Install all OS dependencies for fully functional notebook server
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    build-essential \
+    emacs \
+    git \
+    inkscape \
+    jed \
+    libsm6 \
+    libxext-dev \
+    libxrender1 \
+    lmodern \
+    netcat \
+    pandoc \
+    python-dev \
+    texlive-fonts-extra \
+    texlive-fonts-recommended \
+    texlive-generic-recommended \
+    texlive-latex-base \
+    texlive-latex-extra \
+    texlive-xetex \
+    tzdata \
+    unzip \
+    nano \
+    ca-certificates \
+    powershell \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
+RUN pip install bash_kernel \
+    && python -m bash_kernel.install
+
+RUN pip install powershell_kernel \
+    python -m powershell_kernel.install
