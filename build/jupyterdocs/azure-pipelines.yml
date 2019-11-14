@@ -16,6 +16,7 @@ resources:
 - repo: self
 
 variables:
+  jupyterdocsVersion: 0.0.1
   containerRegistry: 'rjfmachado.azurecr.io'
   dockerRegistryServiceConnection: 'rjfmachado.containers'
   imageRepository: 'jupyterdocs'
@@ -48,5 +49,5 @@ stages:
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          $(Rev:.r)
+          $(jupyterdocsVersion)
           latest
