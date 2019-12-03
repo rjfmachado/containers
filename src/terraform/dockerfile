@@ -8,8 +8,8 @@ RUN apt-get update \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
-ENV TERRAFORM_VERSION=0.12.16
-ENV TERRAFORM_SHA256SUM=2acb99936c32f04d0779c3aba3552d6d2a1fa32ed63cbca83a84e58714f22022
+ENV TERRAFORM_VERSION=0.12.17
+ENV TERRAFORM_SHA256SUM=8124c7dfe5036377de0637378ad32cf530477403c29ab1ccefbaa50a05d059c2
 
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip ./
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS ./
