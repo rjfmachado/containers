@@ -2,8 +2,8 @@
 
 | Container| Pipeline|
 |:-|:-:|
-| Terraform |[![Build Status](https://dev.azure.com/rjfmachado/containers/_apis/build/status/rjfmachado.containers.terraform?branchName=master)](https://dev.azure.com/rjfmachado/containers/_build/latest?definitionId=16&branchName=master) |
-| Jupyter | [![Build Status](https://dev.azure.com/rjfmachado/containers/_apis/build/status/rjfmachado.containers.jupyterdocs?branchName=master)](https://dev.azure.com/rjfmachado/containers/_build/latest?definitionId=56&branchName=master) |
+|Terraform|[![Build Status](https://dev.azure.com/rjfmachado/containers/_apis/build/status/rjfmachado.containers.terraform?branchName=master)](https://dev.azure.com/rjfmachado/containers/_build/latest?definitionId=16&branchName=master)|
+|Jupyter|[![Build Status](https://dev.azure.com/rjfmachado/containers/_apis/build/status/rjfmachado.containers.jupyterdocs?branchName=master)](https://dev.azure.com/rjfmachado/containers/_build/latest?definitionId=56&branchName=master)|
 
 My helper repo for various Docker containers.
 
