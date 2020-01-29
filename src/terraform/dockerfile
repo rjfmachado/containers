@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    git bash wget unzip ca-certificates \
+    git bash wget unzip jq ca-certificates \
     && apt-get autoremove -y \
     && apt-get clean \
     && update-ca-certificates \
