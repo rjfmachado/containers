@@ -10,7 +10,7 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsof
     && apt-get update \
     && apt-get install -y --no-install-recommends \
     powershell \
-    $$ pwsh -c "Set-PSRepository -Name PSGallery -InstallationPolicy Trusted" \
+    && pwsh -c "Set-PSRepository -Name PSGallery -InstallationPolicy Trusted" \
     && pwsh -c "Install-Module -Name -az -Scope AllUsers" \
     && apt-get autoremove -y \
     && apt-get clean \
