@@ -17,8 +17,8 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsof
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
-ENV TERRAFORM_VERSION=0.14.4
-ENV TERRAFORM_SHA256SUM=042f1f4fb47696b3442eca12bce7cce6de0b477b299503ddad6b8bc3777a54b5
+ENV TERRAFORM_VERSION=1.14.5
+ENV TERRAFORM_SHA256SUM=2899f47860b7752e31872e4d57b1c03c99de154f12f0fc84965e231bc50f312f
 
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip ./
 ADD https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS ./
